@@ -8,11 +8,19 @@ class BooksController < ApplicationController
   end
 
   def create
+    
     @book = Book.new(book_params)
     if @book.save
       flash[:notice] = "Book was successfully created."
       redirect_to book_path(@book.id)
     else
+      # ここでindexページ表示に必要なインスタンス変数を果たさなければいけない
+      # だが@bookはもう上で定義されている
+      # ↓renderをredirect_to indexにしてもエラーは出ないが、ここで得た
+      # @bookが空ですよという情報なしでindexアクションを読み込んでしまうので
+      # 空欄のエラー表示がされずにindexに飛んでしまう
+      
+      @books = Book.all
       render :index
     end
   end
@@ -23,6 +31,7 @@ class BooksController < ApplicationController
 
   def edit
     @book = Book.find(params[:id])
+    
   end
 
   def update
