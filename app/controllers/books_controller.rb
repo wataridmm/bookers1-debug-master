@@ -20,7 +20,7 @@ class BooksController < ApplicationController
       # @bookが空ですよという情報なしでindexアクションを読み込んでしまうので
       # 空欄のエラー表示がされずにindexに飛んでしまう
       
-      @books = Book.all
+      
       render :index
     end
   end
@@ -36,7 +36,7 @@ class BooksController < ApplicationController
 
   def update
     @book = Book.find(params[:id])
-    if @book.update()
+    if @book.update(book_params)
       flash[:notice] = "Book was successfully updated."
       redirect_to book_path(@book.id)
     else
